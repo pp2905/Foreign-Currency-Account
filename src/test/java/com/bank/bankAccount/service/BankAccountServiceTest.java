@@ -42,20 +42,19 @@ class BankAccountServiceTest {
 
     @BeforeEach
     void setUp() {
-        bankAccount = new BankAccount();
         bankAccountList = new ArrayList<>();
-        accountBalance = new AccountBalance();
         accountBalanceList = new ArrayList<>();
 
+        accountBalance = new AccountBalance();
         accountBalance.setBalance(BigDecimal.valueOf(1000));
         accountBalance.setCurrency("PLN");
 
+        accountBalanceList.add(accountBalance);
+
+        bankAccount = new BankAccount();
         bankAccount.setFirstName("Tom");
         bankAccount.setLastName("Scott");
         bankAccount.setPesel("96122357658");
-
-        accountBalanceList.add(accountBalance);
-
         bankAccount.setAccountBalances(accountBalanceList);
 
         bankAccountList.add(bankAccount);
