@@ -80,7 +80,7 @@ public class BankAccountService {
     }
 
     public BankAccount exchangeMoney(String pesel, BigDecimal amount, String currencyFrom, String currencyTo){
-        //if not found getBankAccountByPesel throw exception
+        //if not found getBankAccountByPesel throw NotFoundException exception
         BankAccount bankAccount = getBankAccountByPesel(pesel);
 
         if(amount == null || currencyFrom.isEmpty() || currencyTo.isEmpty()) {
@@ -139,14 +139,14 @@ public class BankAccountService {
     }
 
     public BankAccount updateBankAccount(BankAccount bankAccount) {
-        //if not found getBankAccountByPesel throw exception
+        //if not found getBankAccountByPesel throw NotFoundException exception
         BankAccount getBankAccount = getBankAccountByPesel(bankAccount.getPesel());
 
         return bankAccountRepository.save(bankAccount);
     }
 
     public void deleteBankAccount(String pesel) {
-        //if not found getBankAccountByPesel throw exception
+        //if not found getBankAccountByPesel throw NotFoundException exception
         BankAccount getBankAccount = getBankAccountByPesel(pesel);
 
         bankAccountRepository.delete(getBankAccount);
