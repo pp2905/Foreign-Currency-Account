@@ -13,6 +13,7 @@ The biggest goal of creating this application is to improve skills in Java and S
 ## Features
 * Chect if the pesel is correct
 * Check if the pesel owner is of age
+* Accounts with 2 currency: PLN, USD
 * Currency exchange based on the exchange rate with https://api.nbp.pl/
 
 ## Short Guide
