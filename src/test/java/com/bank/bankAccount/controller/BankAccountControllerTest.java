@@ -103,10 +103,6 @@ class BankAccountControllerTest {
     }
 
     @Test
-    void exchangeMoney() {
-    }
-
-    @Test
     void updateBankAccount() throws Exception {
         when(bankAccountService.updateBankAccount(any())).thenReturn(bankAccount);
 
