@@ -73,7 +73,7 @@ class BankAccountControllerTest {
         String pesel = bankAccount.getPesel();
         given(bankAccountService.getBankAccountByPesel(pesel)).willReturn(bankAccount);
 
-        mvc.perform(get("/api/bankAccounts/{pesel}")
+        mvc.perform(get("/api/bankAccounts/{pesel}", pesel)
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("pesel", is(bankAccount.getPesel())));
