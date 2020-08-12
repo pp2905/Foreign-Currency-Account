@@ -74,6 +74,10 @@ public class BankAccountService {
             throw new NotAcceptableException("Given currency should be PLN");
         }
 
+        if(bankAccount.getAccountBalances().get(0).getBalance().compareTo(BigDecimal.ZERO) < 0) {
+            throw new NotAcceptableException("Balance amount should not be negative");
+        }
+
         bankAccount.getAccountBalances().add(new AccountBalance(BigDecimal.ZERO, "USD"));
 
         return bankAccountRepository.save(bankAccount);
