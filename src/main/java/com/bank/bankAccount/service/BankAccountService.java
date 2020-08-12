@@ -106,6 +106,10 @@ public class BankAccountService {
             throw new NotAcceptableException("You dont have enough money");
         }
 
+        if(amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new NotAcceptableException("Amount to exchange should be greater than 0");
+        }
+
         String currencyToCheck = currencyFrom.equals("PLN") ? currencyTo : currencyFrom;
 
         final String url = "http://api.nbp.pl/api/exchangerates/rates/a/"+currencyToCheck;
