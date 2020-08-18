@@ -94,33 +94,33 @@ class BankAccountServiceTest {
         assertThat(expectedBankAccount).isEqualToComparingFieldByField(bankAccount);
     }
 
-    @Test
-    void shouldAddMoneyToAccount() {
-        AccountBalance accountBalance = bankAccount.getAccountBalances().get(0);
-
-        given(accountBalanceRepository.findById(accountBalance.getId())).willReturn(Optional.of(accountBalance));
-
-        bankAccountService.addMoneyToAccount(accountBalance, BigDecimal.valueOf(300));
-
-        AccountBalance expectedAccountBalance = accountBalanceRepository.findById(accountBalance.getId()).get();
-
-        assertThat(expectedAccountBalance).isNotNull();
-        assertThat(expectedAccountBalance).isEqualToComparingFieldByField(accountBalance);
-    }
-
-    @Test
-    void shouldSubtractMoneyFromAccount() {
-        AccountBalance accountBalance = bankAccount.getAccountBalances().get(0);
-
-        given(accountBalanceRepository.findById(accountBalance.getId())).willReturn(Optional.of(accountBalance));
-
-        bankAccountService.subtractMoneyFromAccount(accountBalance, BigDecimal.valueOf(500));
-
-        AccountBalance expectedAccountBalance = accountBalanceRepository.findById(accountBalance.getId()).get();
-
-        assertThat(expectedAccountBalance).isNotNull();
-        assertThat(expectedAccountBalance).isEqualToComparingFieldByField(accountBalance);
-    }
+//    @Test
+//    void shouldAddMoneyToAccount() {
+//        AccountBalance accountBalance = bankAccount.getAccountBalances().get(0);
+//
+//        given(accountBalanceRepository.findById(accountBalance.getId())).willReturn(Optional.of(accountBalance));
+//
+//        bankAccountService.addMoneyToAccount(accountBalance, BigDecimal.valueOf(300));
+//
+//        AccountBalance expectedAccountBalance = accountBalanceRepository.findById(accountBalance.getId()).get();
+//
+//        assertThat(expectedAccountBalance).isNotNull();
+//        assertThat(expectedAccountBalance).isEqualToComparingFieldByField(accountBalance);
+//    }
+//
+//    @Test
+//    void shouldSubtractMoneyFromAccount() {
+//        AccountBalance accountBalance = bankAccount.getAccountBalances().get(0);
+//
+//        given(accountBalanceRepository.findById(accountBalance.getId())).willReturn(Optional.of(accountBalance));
+//
+//        bankAccountService.subtractMoneyFromAccount(accountBalance, BigDecimal.valueOf(500));
+//
+//        AccountBalance expectedAccountBalance = accountBalanceRepository.findById(accountBalance.getId()).get();
+//
+//        assertThat(expectedAccountBalance).isNotNull();
+//        assertThat(expectedAccountBalance).isEqualToComparingFieldByField(accountBalance);
+//    }
 
     @Test
     void shouldUpdateBankAccount() {

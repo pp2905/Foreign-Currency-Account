@@ -3,6 +3,7 @@ package com.bank.bankAccount.controller;
 import com.bank.bankAccount.exception.NotAcceptableException;
 import com.bank.bankAccount.model.BankAccount;
 import com.bank.bankAccount.service.BankAccountService;
+import com.bank.bankAccount.service.MoneyService;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,11 +17,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/bankAccounts")
 public class BankAccountController {
+
     private final BankAccountService bankAccountService;
+    private final MoneyService moneyService;
 
     @Autowired
-    public BankAccountController(BankAccountService bankAccountService) {
+    public BankAccountController(BankAccountService bankAccountService, MoneyService moneyService) {
         this.bankAccountService = bankAccountService;
+        this.moneyService = moneyService;
     }
 
     @GetMapping(
@@ -60,7 +64,7 @@ public class BankAccountController {
         String currencyFrom = jsonNode.path("from").asText();
         String currencyTo = jsonNode.path("to").asText();
 
-        return bankAccountService.exchangeMoney(pesel, amount, currencyFrom, currencyTo);
+        return moneyService.exchangeMoney(pesel, amount, currencyFrom, currencyTo);
     }
 
     @PutMapping(
