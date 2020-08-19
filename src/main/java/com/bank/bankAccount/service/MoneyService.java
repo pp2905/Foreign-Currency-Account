@@ -4,14 +4,11 @@ import com.bank.bankAccount.exception.BadRequestException;
 import com.bank.bankAccount.exception.NotAcceptableException;
 import com.bank.bankAccount.model.AccountBalance;
 import com.bank.bankAccount.model.BankAccount;
+import com.bank.bankAccount.model.NBPApiCurrency;
 import com.bank.bankAccount.repository.AccountBalanceRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,7 +24,6 @@ public class MoneyService {
         this.accountBalanceRepository = accountBalanceRepository;
         this.bankAccountService = bankAccountService;
     }
-
 
     public BankAccount exchangeMoney(String pesel, BigDecimal amount, String currencyFrom, String currencyTo){
         //if not found getBankAccountByPesel throw NotFoundException exception
@@ -58,20 +54,16 @@ public class MoneyService {
 
         String currencyToCheck = currencyFrom.equals("PLN") ? currencyTo : currencyFrom;
 
-        final String url = "http://api.nbp.pl/api/exchangerates/rates/a/"+currencyToCheck;
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = null;
+        WebClient.Builder builder = WebClient.builder();
+        NBPApiCurrency nbpApiCurrency = builder.build()
+                .get()
+                .uri("http://api.nbp.pl/api/exchangerates/rates/a/" + currencyToCheck)
+                .retrieve()
+                .bodyToMono(NBPApiCurrency.class)
+                .block();
 
-        try {
-            root = mapper.readTree(response.getBody());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
 
-        JsonNode rates = root.path("rates");
-        BigDecimal exchangeRate = new BigDecimal(rates.get(0).path("mid").asText());
+        BigDecimal exchangeRate = new BigDecimal(nbpApiCurrency.getRates().get(0).getMid());
         BigDecimal amountAfterExchange = currencyFrom.equals("PLN") ? amount.divide(exchangeRate, 2 , RoundingMode.HALF_UP) : amount.multiply(exchangeRate);
 
         subtractMoneyFromAccount(accountBalanceFrom, amount);
